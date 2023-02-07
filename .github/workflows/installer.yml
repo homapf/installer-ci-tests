@@ -8,6 +8,8 @@ jobs:
     name: Install HomaBelly with the installer
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Install HomaBelly
         uses: game-ci/unity-builder@v2
         env:
@@ -19,15 +21,6 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           allowDirtyBuild: true
           versioning: None
-
-      - name: Upload .unitypackage to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: Build/*/*/*.unitypackage
-          tag: ${{ github.ref }}
-          overwrite: true
-          file_glob: true
 
       - uses: actions/upload-artifact@v3
         with:
