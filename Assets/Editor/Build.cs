@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class Build
 {
-    public static async Task Install()
+    public static async void Install()
     {
         if (Application.isBatchMode)
         {
