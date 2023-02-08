@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using HomaGames.HomaBelly;
+using UnityEditor;
 using UnityEngine;
 
 public static class Build
 {
+    [MenuItem("Test/tests")]
+    public static void Test()
+    {
+        Debug.Log(typeof(AssetDatabase).GetMethod("ImportPackageImmediately",BindingFlags.Static | BindingFlags.NonPublic));
+    }
+    
     public static async void Install()
     {
         if (Application.isBatchMode)

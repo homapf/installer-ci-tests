@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -14,6 +15,7 @@ namespace HomaGames.HomaBelly.Utilities
     public static class PackageInstaller
     {
         private static TaskCompletionSource<bool> _packageImportFinished = new TaskCompletionSource<bool>();
+
         /// <summary>
         /// Asynchronously installs the package represented by the given PackageComponent.
         /// </summary>
@@ -32,7 +34,12 @@ namespace HomaGames.HomaBelly.Utilities
                     AssetDatabase.importPackageCancelled += OnImportPackageCompleted;
                     AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
                     AssetDatabase.importPackageFailed += OnImportPackageFailed;
-                    AssetDatabase.ImportPackage(packagePath, false);
+                    if (Application.isBatchMode)
+                        typeof(AssetDatabase)
+                            .GetMethod("ImportPackageImmediately", BindingFlags.Static | BindingFlags.NonPublic)
+                            ?.Invoke(null, new object[] {packagePath});
+                    else
+                        AssetDatabase.ImportPackage(packagePath, false);
                     await _packageImportFinished.Task;
                     HomaBellyEditorLog.Debug($"{packageComponent.GetName()} installed");
                 }
