@@ -21,6 +21,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           allowDirtyBuild: true
           versioning: None
+          customParameters: "-quitTimeout 10000"
 
       - uses: actions/upload-artifact@v3
         with:

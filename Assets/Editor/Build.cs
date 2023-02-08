@@ -27,5 +27,6 @@ public static class Build
         var manifest = await PluginController.RequestPluginManifest("KTmdzEv6");
         await PluginController.InstallPluginManifest(manifest);
         Debug.Log("Ended installing manifest ...");
+        EditorApplication.Exit(0);
     }
 }
